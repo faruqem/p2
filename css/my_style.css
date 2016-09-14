@@ -1,0 +1,21 @@
+.bg-1 {
+    background-color: #E9692C; /* Orange */
+    color: #ffffff;
+}
+
+.bottom-buffer {
+  margin-bottom: 60px;
+}
+
+.top-buffer {
+  margin-top: 60px;
+}
+
+.container-fluid {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.img-responsive {
+    margin: 0 auto;
+}
