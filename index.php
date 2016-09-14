@@ -23,7 +23,7 @@
       <div class="row">
         <div class="col-lg-12">
             <h2>Project P2</h2>
-            <h4><a href="p2.guddi.ca">View Project P2</a></h4>
+            <h4><a href="http://p2.guddi.ca">View Project P2</a></h4>
             <h4><a href="https://github.com/faruqem/p2">Project P2 Github Link</a></h4>
             <p>The goal of this project is to give hands-on practice with working with the basics of PHP.</p>
         </div>
