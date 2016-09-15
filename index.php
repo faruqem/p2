@@ -17,15 +17,17 @@
       <p>Project P1: System Setup / Portfolio</p>
     </div>-->
     <div class="container">
-      <div class="container-fluid bg-1 text-center bottom-buffer">
+      <div class="container-fluid-1 bg-1 text-center bottom-buffer">
            <h1>Project P2</h1>
       </div>
       <div class="row">
-        <div class="col-lg-12">
-            <h2>Project P2</h2>
-            <h4><a href="http://p2.guddi.ca">View Project P2</a></h4>
-            <h4><a href="https://github.com/faruqem/p2">Project P2 Github Link</a></h4>
-            <p>The goal of this project is to give hands-on practice with working with the basics of PHP.</p>
+        <div class="col-md-12">
+        	<div class="well">
+				<h2>Project P2</h2>
+				<h4><a href="http://p2.guddi.ca">View Project P2</a></h4>
+				<h4><a href="https://github.com/faruqem/p2">Project P2 Github Link</a></h4>
+				<p>The goal of this project is to give hands-on practice with working with the basics of PHP by creating an xkcd style password generator.</p>
+			</div>
         </div>
       </div>
 
@@ -36,7 +38,7 @@
           </div>
         </div>
       </nav>-->
-      <div class="container-fluid bg-1 text-center top-buffer">
+      <div class="container-fluid-2 bg-1 text-center top-buffer">
         <h3>Project P2</h3>
         <h3>CSCI E-15 Dynamic Web Applications Course Projects</h3>
         <h3>Harvard Extension School</h3>
