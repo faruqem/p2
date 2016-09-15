@@ -27,6 +27,8 @@
 				<h4><a href="http://p2.guddi.ca">View Project P2</a></h4>
 				<h4><a href="https://github.com/faruqem/p2">Project P2 Github Link</a></h4>
 				<p>The goal of this project is to give hands-on practice with working with the basics of PHP by creating an xkcd style password generator.</p>
+				<hr>
+				<h4><a href="http://p1.guddi.ca">Back to Project P1</a></h4>
 			</div>
         </div>
       </div>
