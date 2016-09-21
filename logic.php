@@ -151,13 +151,14 @@
         }
     }
     #Pick the special characters to be added
-    const SPECIAL_CHARS = ["!", "@","#","$","%","^","&","*"];
+    //const SPECIAL_CHARS = ["!", "@","#","$","%","^","&","*"];
+    $special_constants = ["!", "@","#","$","%","^","&","*"];
     $useSpecialChars = "";
     $k = 1;
     if (isset($_GET["tot-sp-chars"])){
         while($k <= $_GET["tot-sp-chars"]){
-            $index = rand(0,count(SPECIAL_CHARS)-1); //Randomly select an index
-            $c = SPECIAL_CHARS[$index]; //Find the spceial character with that index
+            $index = rand(0,count($special_constants)-1); //Randomly select an index
+            $c = $special_constants[$index]; //Find the spceial character with that index
             if(strpos($useSpecialChars, $c) === false){ //Make sure that the special character is not repeated
                 $useSpecialChars = $useSpecialChars . $c;
                 $k++;
