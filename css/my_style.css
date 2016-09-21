@@ -4,16 +4,16 @@
 }
 
 .bottom-buffer {
-  margin-bottom: 30px;
+  margin-bottom: 20px;
 }
 
 .top-buffer {
-  margin-top: 20px;
+  margin-top: 4px;
 }
 
 .container-fluid-1 {
-    padding-top: 30px;
-    padding-bottom: 30px;
+    padding-top: 50px;
+    padding-bottom: 50px;
 }
 
 .container-fluid-2 {
@@ -37,4 +37,3 @@
 .well a:active, a:hover{
     color: #B53389;
 }
-
