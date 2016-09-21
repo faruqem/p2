@@ -188,4 +188,4 @@
     }
 
     #Add the numbers and special characters at the end
-    $suggestedPassword = $suggestedPassword . $useSpecialChars . $useNumbers;
+    $suggestedPassword = $suggestedPassword . $useSpecialChars . $useNumbers;?>
