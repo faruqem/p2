@@ -4,8 +4,9 @@
 ---
 
 ###Synopsis: This web application creates an xkcd style password generator based on user input. This is a class project for Harvard Extension School CSCIE-15 Dynamic Web Applications course.
+###Server side language used: PHP
+###CSS and JS Framework Used: [Bootstrap](http://getbootstrap.com/)
 ###Site Link: [Project P2](http://p2.guddi.ca)
 ###Screencast Demo: [Project P2 Demo] (http://p2.guddi.ca)
-###CSS and JS Framework Used: [Bootstrap](http://getbootstrap.com/)
 
 ---
