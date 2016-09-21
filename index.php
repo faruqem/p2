@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="css/my_style.css">
 
         <!--PHP logic file-->
-        
+        <?php require 'logic.php'; ?>
 
     </head>
     <body>
