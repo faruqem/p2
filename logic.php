@@ -1,115 +1,34 @@
 <?php
-    /*Server side validation*/
+    /*-----------------------------------------------------------------------
+    Server side validation:
+    Call validateUserInput() function and check if all user input
+    are provided and in the correct format.
+    -----------------------------------------------------------------------*/
     if (isset($_GET["tot-words"]) && isset($_GET["tot-numbers"]) && isset($_GET["tot-sp-chars"]) && isset($_GET["use-separator"]) && isset($_GET["word-case"])){
-        if(trim($_GET["tot-words"] == '')) {
-    	    $error = "ERROR: Please provide the total number of words to be used for the password.";
-    	    return;
-    	} else if(!ctype_digit($_GET["tot-words"])) {
-    		$error = "ERROR: Total number of words must be in numeric.";
-    		return;
-     	} else if((int)$_GET["tot-words"] < 2 || (int)$_GET["tot-words"] > 6) {
-    		$error = "ERROR: Total number of words must be between 2 to 6.";
-    		return;
-        } else if(trim($_GET["tot-numbers"] == '')) {
-    	    $error = "ERROR: Please provide the total number to be used.";
-    	    return;
-    	} else if(!ctype_digit($_GET["tot-numbers"])) {
-    		$error = "ERROR: Total numbers to be used must be in numeric.";
-    		return;
-     	} else if((int)$_GET["tot-numbers"] < 1 || (int)$_GET["tot-numbers"] > 4) {
-    		$error = "ERROR: Total numbers to be used must be between 1 to 4.";
-    		return;
-        } else if(trim($_GET["tot-sp-chars"] == '')) {
-    	    $error = "ERROR: Please provide the total special characters to be used.";
-    	    return;
-    	} else if(!ctype_digit($_GET["tot-sp-chars"])) {
-    		$error = "ERROR: Total special characters to be used must be in numeric.";
-    		return;
-     	} else if((int)$_GET["tot-sp-chars"] < 1 || (int)$_GET["tot-sp-chars"] > 4) {
-    		$error = "ERROR: Total special characters to be used must be between 1 to 4.";
-    		return;
-        } else if(($_GET["use-separator"] != "!") &&
-                ($_GET["use-separator"] != "@") &&
-                ($_GET["use-separator"] != "#") &&
-                ($_GET["use-separator"] != "$") &&
-                ($_GET["use-separator"] != "%") &&
-                ($_GET["use-separator"] != "^") &&
-                ($_GET["use-separator"] != "&") &&
-                ($_GET["use-separator"] != "*") &&
-                ($_GET["use-separator"] != "-") &&
-                ($_GET["use-separator"] != "space") &&
-                ($_GET["use-separator"] != "none")) {
-        	$error = "ERROR: Separator character must be from: -,!, @, #, $, %, ^, & or *.";
-        	return;
-        } else if((strtolower($_GET["word-case"]) <> "camel") &&
-                    (strtolower($_GET["word-case"]) != "upper") &&
-                    (strtolower($_GET["word-case"]) != "lower")) {
-    		$error = "ERROR: Word case must be Upper, Lower or Camel.";
-    		return;
-        } else {
-            $error = "";
-        }
-    }
+        $error = validateUserInput($_GET["tot-words"],$_GET["tot-numbers"],$_GET["tot-sp-chars"],$_GET["use-separator"],$_GET["word-case"]);
+        if($error != ""){
+            return;
+        } //End of inner loop
+    } //End of outer loop
 
-    #Initialize a varibale with words' file folder address
-    $wordFile = 'data/words.json';
 
-    /*
+    /*-----------------------------------------------------------------------
         First check if the words file exist.
-        If the words file does not exist grab words from Paul's website, create a new file
-        and save the words there in JSON format
-    */
+        If the words file does not exist call generateWordFile() function
+        to grab words from Paul's website, create a new file
+        and save the words there in JSON format.
+    -----------------------------------------------------------------------*/
+    $wordFile = 'data/words.json'; //Initialize a varibale with words' file folder address
+
     if (!file_exists($wordFile)) {
-
-        #Intialization
-        define("PAULS_SITE_MAX_PAGE", 30); //Define a constant on how many pages Paul's site has
-        $urls = [];
-        $allWords = [];
-
-        #Create an array with all page urls
-        for($i = 0; $i < PAULS_SITE_MAX_PAGE; $i++){
-            if($i % 2 == 0){
-                $urls[] = "http://www.paulnoll.com/Books/Clear-English/words-". sprintf('%02d', $i + 1) . "-" . sprintf('%02d', $i + 2) . "-hundred.html";
-            }
-        }
-
-        $pattern = '~<li>(.*?)</li>~s'; //Declare the pattern. All words are in between a html <li></li> tag
-
-        #Loop through all the pages and dump all the words to pwWords array
-        foreach($urls as $url) {
-            $wordPage = file_get_contents($url);
-            preg_match_all ($pattern, $wordPage, $allWords);
-            foreach($allWords[0] as $word){
-                $pwWords[] = $word;
-            }
-        }
-
-        #Now create a JSON string from the words retrieved
-        $jsonString = "{";
-        $i = 0;
-        foreach($pwWords as $pwWord){
-            $pwWord = trim(str_replace("<\li>","",str_replace("<li>","",$pwWord)));
-            $pwWord = str_replace(" ","",$pwWord);
-            $jsonString = $jsonString . '"' . $i . '":' . '"' . $pwWord . '",';//echo $pwWord;
-            $i++;
-        }
-        $jsonString = $jsonString . "}";
-        #echo $jsonString; //Check the output - for debugging
-
-        #Save the JSON string in the "words.json" file in the "data" folder
-        file_put_contents($wordFile, $jsonString);
-
-        /*ALternate way opening and saving the data in a new file*/
-        /*-------------------------------------------------------*/
-        //$myfile = fopen($wordFile, "w") or die("Unable to open file!");
-        //fwrite($myfile, $jsonString);
-        //fclose($myfile);
+        generateWordFile($wordFile); //Call generateWordFile() function to generate the file
     }
 
-    /*
+
+    /*-----------------------------------------------------------------------
         Now read the query string and create the password by retrieving
-        words from the locally saved file
-    */
+        words from the locally saved file.
+    -----------------------------------------------------------------------*/
     #Pull the words from the local file into an array
     if (file_exists($wordFile)) { //Double checking if the file exists
         $jsondata = file_get_contents($wordFile);
@@ -134,9 +53,10 @@
                     $useWords[] = trim($allWords[$index]);
                 }
                 $i++;
-            }
-        }
-    }
+            } //End of inner IF
+        } //End of WHILE loop
+    } //End of outer IF
+
     #Pick the numbers to be added
     $n = -1;
     $useNumbers = "";
@@ -150,6 +70,7 @@
             }
         }
     }
+    
     #Pick the special characters to be added
     //const SPECIAL_CHARS = ["!", "@","#","$","%","^","&","*"];
     $special_constants = ["!", "@","#","$","%","^","&","*"];
@@ -190,3 +111,108 @@
 
     #Add the numbers and special characters at the end
     $suggestedPassword = $suggestedPassword . $useSpecialChars . $useNumbers;
+
+    #End of random password generation section.
+    #---------------------------------------------------------------------------
+
+
+    /*-----------------------------------------------------------------------
+    Server side validation function:
+    Definition of validateUserInput() function to check if all user input
+    are provided and in the correct format.
+    -----------------------------------------------------------------------*/
+    function validateUserInput($totWords,$totNumbers,$totSpChars,$useSeparator,$wordCase ) {
+        if(trim($totWords == '')) {
+    	    return "ERROR: Please provide the total number of words to be used for the password.";
+    	} else if(!ctype_digit($totWords)) {
+    		return "ERROR: Total number of words must be in numeric.";
+     	} else if((int)$totWords < 2 || (int)$totWords > 6) {
+    		return "ERROR: Total number of words must be between 2 to 6.";
+        } else if(trim($totNumbers == '')) {
+    	    return "ERROR: Please provide the total number to be used.";
+    	} else if(!ctype_digit($totNumbers)) {
+    		return "ERROR: Total numbers to be used must be in numeric.";
+     	} else if((int)$totNumbers < 1 || (int)$totNumbers > 4) {
+    		return "ERROR: Total numbers to be used must be between 1 to 4.";
+        } else if(trim($totSpChars == '')) {
+    	    return "ERROR: Please provide the total special characters to be used.";
+    	} else if(!ctype_digit($totSpChars)) {
+    		return "ERROR: Total special characters to be used must be in numeric.";
+     	} else if((int)$totSpChars < 1 || (int)$totSpChars > 4) {
+    		return "ERROR: Total special characters to be used must be between 1 to 4.";
+        } else if(($useSeparator != "!") &&
+                ($useSeparator != "@") &&
+                ($useSeparator != "#") &&
+                ($useSeparator != "$") &&
+                ($useSeparator != "%") &&
+                ($useSeparator != "^") &&
+                ($useSeparator != "&") &&
+                ($useSeparator != "*") &&
+                ($useSeparator != "-") &&
+                ($useSeparator != "space") &&
+                ($useSeparator != "none")) {
+        	return "ERROR: Separator character must be from: -,!, @, #, $, %, ^, & or *.";
+        } else if((strtolower($wordCase) <> "camel") &&
+                    (strtolower($wordCase) != "upper") &&
+                    (strtolower($wordCase) != "lower")) {
+    		return "ERROR: Word case must be Upper, Lower or Camel.";
+        } else {
+            return "";
+        }
+    }
+    #validateUserInput() function
+    #------------------------------------------------------------------------------
+
+
+    /*-----------------------------------------------------------------------
+        Definition of generateWordFile() function
+        to grab words from Paul's website, create a new file
+        and save the words there in JSON format.
+    -----------------------------------------------------------------------*/
+    function generateWordFile($wordFile){
+        #Intialization
+        define("PAULS_SITE_MAX_PAGE", 30); //Define a constant on how many pages Paul's site has
+        $urls = [];
+        $allWords = [];
+
+        #Create an array with all page urls
+        for($i = 0; $i < PAULS_SITE_MAX_PAGE; $i++){
+            if($i % 2 == 0){
+                $urls[] = "http://www.paulnoll.com/Books/Clear-English/words-". sprintf('%02d', $i + 1) . "-" . sprintf('%02d', $i + 2) . "-hundred.html";
+            }
+        }
+
+        $pattern = '~<li>(.*?)</li>~s'; //Declare the pattern. All words are in between a html <li></li> tag
+
+        #Loop through all the pages and dump all the words to pwWords array
+        foreach($urls as $url) {
+            $wordPage = file_get_contents($url);
+            preg_match_all ($pattern, $wordPage, $allWords);
+            foreach($allWords[0] as $word){
+                $pwWords[] = trim(strip_tags($word));
+            }
+        }
+
+        #Now create a JSON string from the words retrieved
+        $jsonString = "{";
+        $i = 0;
+        foreach($pwWords as $pwWord){
+            //$pwWord = trim(str_replace("<\li>","",str_replace("<li>","",$pwWord)));
+            if($i < count($pwWords)-1){
+                $jsonString = $jsonString . '"' . $i . '":' . '"' . $pwWord . '",';
+            } else{
+                $jsonString = $jsonString . '"' . $i . '":' . '"' . $pwWord . '"';
+            }
+            $i++;
+        }
+        $jsonString = $jsonString . "}";
+
+        #Save the JSON string in the "words.json" file in the "data" folder
+        file_put_contents($wordFile, $jsonString);
+
+        /*ALternate way opening and saving the data in a new file*/
+        /*-------------------------------------------------------*/
+        //$myfile = fopen($wordFile, "w") or die("Unable to open file!");
+        //fwrite($myfile, $jsonString);
+        //fclose($myfile);
+    }
