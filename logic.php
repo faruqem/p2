@@ -58,31 +58,35 @@
     } //End of outer IF
 
     #Pick the numbers to be added
-    $n = -1;
     $useNumbers = "";
-    $j = 1;
-    if (isset($_GET["tot-numbers"])){
-        while($j <= $_GET["tot-numbers"]){
-            $n = rand(0,9); //Randomly select a key
-            if(strpos($useNumbers, (string)$n) === false){ //Make sure that the digit is not repeated
-                $useNumbers = $useNumbers . $n;
-                $j++;
+    if (isset($_GET["tot-numbers"]) && $_GET["tot-numbers"] !=0) {
+        $n = -1;
+        $j = 1;
+        if (isset($_GET["tot-numbers"])){
+            while($j <= $_GET["tot-numbers"]){
+                $n = rand(0,9); //Randomly select a key
+                if(strpos($useNumbers, (string)$n) === false){ //Make sure that the digit is not repeated
+                    $useNumbers = $useNumbers . $n;
+                    $j++;
+                }
             }
         }
     }
-    
+
     #Pick the special characters to be added
-    //const SPECIAL_CHARS = ["!", "@","#","$","%","^","&","*"];
-    $special_constants = ["!", "@","#","$","%","^","&","*"];
     $useSpecialChars = "";
-    $k = 1;
-    if (isset($_GET["tot-sp-chars"])){
-        while($k <= $_GET["tot-sp-chars"]){
-            $index = rand(0,count($special_constants)-1); //Randomly select an index
-            $c = $special_constants[$index]; //Find the spceial character with that index
-            if(strpos($useSpecialChars, $c) === false){ //Make sure that the special character is not repeated
-                $useSpecialChars = $useSpecialChars . $c;
-                $k++;
+    if (isset($_GET["tot-sp-chars"]) && $_GET["tot-sp-chars"] !=0) {
+        //const SPECIAL_CHARS = ["!", "@","#","$","%","^","&","*"]; //Not supported by older PHP verson used in Digital Ocean
+        $special_constants = ["!", "@","#","$","%","^","&","*"];
+        $k = 1;
+        if (isset($_GET["tot-sp-chars"])){
+            while($k <= $_GET["tot-sp-chars"]){
+                $index = rand(0,count($special_constants)-1); //Randomly select an index
+                $c = $special_constants[$index]; //Find the spceial character with that index
+                if(strpos($useSpecialChars, $c) === false){ //Make sure that the special character is not repeated
+                    $useSpecialChars = $useSpecialChars . $c;
+                    $k++;
+                }
             }
         }
     }
@@ -131,15 +135,15 @@
         } else if(trim($totNumbers == '')) {
     	    return "ERROR: Please provide the total number to be used.";
     	} else if(!ctype_digit($totNumbers)) {
-    		return "ERROR: Total numbers to be used must be in numeric.";
-     	} else if((int)$totNumbers < 1 || (int)$totNumbers > 4) {
-    		return "ERROR: Total numbers to be used must be between 1 to 4.";
+    		return "ERROR: Total numbers to be used must be in numeric and between 0 to 4.";
+     	} else if((int)$totNumbers < 0 || (int)$totNumbers > 4) {
+    		return "ERROR: Total numbers to be used must be between 0 to 4.";
         } else if(trim($totSpChars == '')) {
     	    return "ERROR: Please provide the total special characters to be used.";
     	} else if(!ctype_digit($totSpChars)) {
-    		return "ERROR: Total special characters to be used must be in numeric.";
-     	} else if((int)$totSpChars < 1 || (int)$totSpChars > 4) {
-    		return "ERROR: Total special characters to be used must be between 1 to 4.";
+    		return "ERROR: Total special characters to be used must be in numeric and between 0 to 4.";
+     	} else if((int)$totSpChars < 0 || (int)$totSpChars > 4) {
+    		return "ERROR: Total special characters to be used must be between 0 to 4.";
         } else if(($useSeparator != "!") &&
                 ($useSeparator != "@") &&
                 ($useSeparator != "#") &&

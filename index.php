@@ -43,6 +43,7 @@
                                 <label class="control-label col-sm-2" for="tot-sp-chars">Total symbols (from !, @, #, $, %, ^, &, *):</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" id="tot-sp-chars" name="tot-sp-chars">
+                                        <option value="0" <?php if(isset($_GET['tot-sp-chars']) && htmlentities($_GET['tot-sp-chars']) == '0') echo "selected";?>>0</option>
                                         <option value="1" <?php if(isset($_GET['tot-sp-chars']) && htmlentities($_GET['tot-sp-chars']) == '1') echo "selected";?>>1</option>
                                         <option value="2" <?php if(isset($_GET['tot-sp-chars']) && htmlentities($_GET['tot-sp-chars']) == '2') echo "selected";?>>2</option>
                                         <option value="3" <?php if(isset($_GET['tot-sp-chars']) && htmlentities($_GET['tot-sp-chars']) == '3') echo "selected";?>>3</option>
@@ -54,6 +55,7 @@
                                 <label class="control-label col-sm-2" for="tot-numbers">Total numbers:</label>
                                 <div class="col-sm-10">
                                     <select class="form-control" id="tot-numbers" name="tot-numbers">
+                                        <option value="0" <?php if(isset($_GET['tot-numbers']) && htmlentities($_GET['tot-numbers']) == '0') echo "selected";?>>0</option>
                                         <option value="1" <?php if(isset($_GET['tot-numbers']) && htmlentities($_GET['tot-numbers']) == '1') echo "selected";?>>1</option>
                                         <option value="2" <?php if(isset($_GET['tot-numbers']) && htmlentities($_GET['tot-numbers']) == '2') echo "selected";?>>2</option>
                                         <option value="3" <?php if(isset($_GET['tot-numbers']) && htmlentities($_GET['tot-numbers']) == '3') echo "selected";?>>3</option>
